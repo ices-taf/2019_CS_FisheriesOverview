@@ -34,3 +34,12 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+
+# taf stuff
+/bootstrap/library/
+/bootstrap/software/
+/bootstrap/data/
+/data/
+/model/
+/output/
+/report/
