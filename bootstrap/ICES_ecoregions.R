@@ -2,7 +2,7 @@
 library(icesTAF)
 taf.library(icesFO)
 
-ecoregions <- load_ecoregions()
+ecoregions <- icesFO::load_ecoregions()
 
 sf::st_write(ecoregions, 
              "ecoregions.csv",
