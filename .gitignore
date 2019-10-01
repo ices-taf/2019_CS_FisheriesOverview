@@ -39,6 +39,7 @@ rsconnect/
 /bootstrap/library/
 /bootstrap/software/
 /bootstrap/data/
+/bootstrap/initial/data-raw
 /data/
 /model/
 /output/
