@@ -35,3 +35,7 @@ sag_status <- read.csv("bootstrap/data/SAG_data/SAG_status.csv")
 
 clean_sag <- format_sag(sag_sum, sag_refpts, 2019, "Celtic")
 clean_status <- format_sag_status(sag_status, 2019, "Celtic Seas")
+
+write.taf(clean_sag, file = "data/clean_sag.csv")
+write.taf(clean_status, file = "data/clean_status.csv")
+
