@@ -1,5 +1,5 @@
 
-# All plots and data outputs are produced here 
+# All plots and data outputs are produced here
 
 library(icesTAF)
 taf.library(icesFO)
@@ -14,6 +14,8 @@ mkdir("report")
 
 catch_dat <- read.taf("data/catch_dat.csv")
 
+sid <- read.taf("bootstrap/data/ICES_StockInformation/sid.csv")
+
 #frmt_effort <- read.taf("data/frmt_effort.csv")
 #frmt_landings <- read.taf("data/frmt_landings.csv")
 trends <- read.taf("model/trends.csv")
@@ -25,13 +27,13 @@ clean_status <- read.taf("data/clean_status.csv")
 effort_dat <- read.taf("bootstrap/data/ICES_vms_effort_data/vms_effort_data.csv")
 landings_dat <- read.taf("bootstrap/data/ICES_vms_landings_data/vms_landings_data.csv")
 
-ices_areas <- 
-  sf::st_read("bootstrap/data/ICES_areas/areas.csv", 
+ices_areas <-
+  sf::st_read("bootstrap/data/ICES_areas/areas.csv",
               options = "GEOM_POSSIBLE_NAMES=WKT", crs = 4326)
 ices_areas <- dplyr::select(ices_areas, -WKT)
 
-ecoregion <- 
-  sf::st_read("bootstrap/data/ICES_ecoregions/ecoregion.csv", 
+ecoregion <-
+  sf::st_read("bootstrap/data/ICES_ecoregions/ecoregion.csv",
               options = "GEOM_POSSIBLE_NAMES=WKT", crs = 4326)
 ecoregion <- dplyr::select(ecoregion, -WKT)
 
@@ -307,16 +309,16 @@ dat <- plot_GES_pies(clean_status, catch_current, "November", "2018", return_dat
 write.taf(dat, file= "2019_CS_FO_Figure12.csv", dir = "report")
 
 #~~~~~~~~~~~~~~~#
-#F. ANNEX TABLE 
+#F. ANNEX TABLE
 #~~~~~~~~~~~~~~~#
-grey.path <- system.file("symbols", "grey_q.png", package = "icesFO")
-red.path <- system.file("symbols", "red_cross.png", package = "icesFO")
-green.path <- system.file("symbols", "green_check.png", package = "icesFO")
-doc <- format_annex_table(clean_status, 2019, return_data = F)
+#grey.path <- system.file("symbols", "grey_q.png", package = "icesFO")
+#red.path <- system.file("symbols", "red_cross.png", package = "icesFO")
+#green.path <- system.file("symbols", "green_check.png", package = "icesFO")
+#doc <- format_annex_table(clean_status, 2019)
 
-print(doc, target = paste0("report/", "2019_CS_FO_annex_table", ".docx"))
+#print(doc, target = paste0("report/", "2019_CS_FO_annex_table", ".docx"))
 
-dat <- format_annex_table(clean_status, 2019, return_data = T)
+#dat <- format_annex_table(clean_status, 2019)
 
 
 ###########
@@ -333,7 +335,7 @@ effort <-
     effort %>%
       dplyr::filter(fishing_category_FO %in% gears) %>%
       dplyr::mutate(
-        fishing_category_FO = 
+        fishing_category_FO =
           dplyr::recode(fishing_category_FO,
             Static = "Static gears",
             Midwater = "Pelagic trawls and seines",
@@ -343,7 +345,7 @@ effort <-
             Beam = "Beam trawls")
         )
 
-plot_effort_map(effort, ecoregion) + 
+plot_effort_map(effort, ecoregion) +
   ggtitle("Average MW Fishing hours 2015-2018")
 
 ggplot2::ggsave("2019_CS_FO_Figure9.png", path = "report", width = 170, height = 200, units = "mm", dpi = 300)
@@ -352,12 +354,12 @@ ggplot2::ggsave("2019_CS_FO_Figure9.png", path = "report", width = 170, height =
 # B. Swept area map
 #~~~~~~~~~~~~~~~#
 
-plot_sar_map(sar, ecoregion, what = "surface") + 
+plot_sar_map(sar, ecoregion, what = "surface") +
   ggtitle("Average surface swept area ratio 2015-2018")
 
 ggplot2::ggsave("2019_CS_FO_Figure17a.png", path = "report", width = 170, height = 200, units = "mm", dpi = 300)
 
-plot_sar_map(sar, ecoregion, what = "subsurface")+ 
+plot_sar_map(sar, ecoregion, what = "subsurface")+
   ggtitle("Average subsurface swept area ratio 2015-2018")
 
 ggplot2::ggsave("2019_CS_FO_Figure17b.png", path = "report", width = 170, height = 200, units = "mm", dpi = 300)
@@ -387,7 +389,7 @@ write.taf(dat, file= "2019_CS_FO_Figure3.csv", dir = "report")
 ## Landings by gear
 plot_vms(landings_dat, metric = "gear_category", type = "landings", cap_year= 2019, cap_month= "November", line_count= 4)
 landings_dat$totweight <- landings_dat$totweight/1000000
-landings_dat <- landings_dat %>% dplyr::mutate(gear_category = 
+landings_dat <- landings_dat %>% dplyr::mutate(gear_category =
                                                        dplyr::recode(gear_category,
                                                                      Static = "Static gears",
                                                                      Midwater = "Pelagic trawls and seines",
@@ -406,7 +408,7 @@ write.taf(dat, file= "2019_CS_FO_Figure6.csv", dir = "report")
 
 ## Effort by gear
 plot_vms(effort_dat, metric = "gear_category", type = "effort", cap_year= 2019, cap_month= "November", line_count= 6)
-effort_dat <- effort_dat %>% dplyr::mutate(gear_category = 
+effort_dat <- effort_dat %>% dplyr::mutate(gear_category =
                                                    dplyr::recode(gear_category,
                                                                  Static = "Static gears",
                                                                  Midwater = "Pelagic trawls and seines",
