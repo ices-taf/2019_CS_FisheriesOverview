@@ -16,11 +16,15 @@ hist <- read.taf("bootstrap/data/ICES_nominal_catches/ICES_historical_catches.cs
 official <- read.taf("bootstrap/data/ICES_nominal_catches/ICES_2006_2017_catches.csv")
 prelim <- read.taf("bootstrap/data/ICES_nominal_catches/ICES_preliminary_catches.csv")
 
-catch_dat <- 
-  format_catches(2019, "Celtic Seas", 
-    hist, official, prelim, species_list, sid)
+catch_dat <-
+  format_catches(2019, "Celtic Seas",
+    hist, official, prelim, species_list, sid) %>%
+  as.data.frame()
 
+try(
 write.taf(catch_dat, dir = "data", quote = TRUE)
+)
+unix2dos("data/catch_dat.csv")
 
 # 3: SAG
 sag_sum <- read.taf("bootstrap/data/SAG_data/SAG_summary.csv")
@@ -35,10 +39,8 @@ out_stocks <-  c("aru.27.123a4", "bli.27.nea", "bll.27.3a47de",
                         "reg.27.561214", "rjb.27.3a4", "rng.27.1245a8914ab",
                         "san.sa.7r", "smn-dp")
 
-library(operators)
-clean_sag <- dplyr::filter(clean_sag, StockKeyLabel %!in% out_stocks)
-clean_status <- dplyr::filter(clean_status, StockKeyLabel %!in% out_stocks)
-detach("package:operators", unload=TRUE)
+clean_sag <- dplyr::filter(clean_sag, !StockKeyLabel %in% out_stocks)
+clean_status <- dplyr::filter(clean_status, !StockKeyLabel %in% out_stocks)
 
 unique(clean_sag$StockKeyLabel)
 

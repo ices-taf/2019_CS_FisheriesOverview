@@ -54,7 +54,7 @@ sar <- dplyr::select(sar, -WKT)
 ###############
 
 plot_ecoregion_map(ecoregion, ices_areas)
-ggplot2::ggsave("2019_BtS_FO_Figure1.png", path = "report", width = 170, height = 200, units = "mm", dpi = 300)
+ggplot2::ggsave("2019_CS_FO_Figure1.png", path = "report", width = 170, height = 200, units = "mm", dpi = 300)
 
 
 
