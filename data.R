@@ -27,7 +27,10 @@ sag_sum <- read.taf("bootstrap/data/SAG_data/SAG_summary.csv")
 sag_refpts <- read.taf("bootstrap/data/SAG_data/SAG_refpts.csv")
 sag_status <- read.taf("bootstrap/data/SAG_data/SAG_status.csv")
 
+# sag_sum <- sag_sum %>% filter(Purpose != "Bench")
+
 clean_sag <- format_sag(sag_sum, sag_refpts, 2019, "Celtic")
+clean_sag <- unique(clean_sag)
 clean_status <- format_sag_status(sag_status, 2019, "Celtic Seas")
 
 out_stocks <-  c("aru.27.123a4", "bli.27.nea", "bll.27.3a47de",
@@ -41,6 +44,7 @@ clean_status <- dplyr::filter(clean_status, StockKeyLabel %!in% out_stocks)
 detach("package:operators", unload=TRUE)
 
 unique(clean_sag$StockKeyLabel)
+unique(clean_status$StockKeyLabel)
 
 
 write.taf(clean_sag, dir = "data")
