@@ -419,7 +419,7 @@ ggplot2::ggsave("2019_CS_FO_Figure9.png", path = "report", width = 170, height =
 #~~~~~~~~~~~~~~~#
 
 # write layer
-write_layer(sar, "2019_BrS_FO_Figure17")
+write_layer(sar, "2019_CS_FO_Figure17")
 
 plot_sar_map(sar, ecoregion, what = "surface") +
   ggtitle("Average surface swept area ratio 2015-2018")
